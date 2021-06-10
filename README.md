@@ -1,5 +1,3 @@
-#MLOps
-
 Repository for ML engineering course.
 
 Contains one folder for each task.
