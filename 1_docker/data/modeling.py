@@ -5,10 +5,6 @@ Script for Gensim LDA model. num_of_topics and model selection in topic-modeling
 Class call saves model and bigrams
 """
 
-import pandas as pd
-import re
-import numpy as np
-import gc
 import pickle
 import click
 
@@ -51,7 +47,7 @@ class Modeling:
         
         
 @click.command()
-@click.option('-p', '--path_to_docs', required=True)
+@click.option('-p', '--path_to_docs', required=True, type=str)
 def main(path_to_docs):
     modellda = Modeling()
     modellda(path_to_docs)    

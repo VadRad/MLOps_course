@@ -6,15 +6,10 @@ Class call saves dataframe with id and topic number
 """
 
 import pandas as pd
-import re
-import numpy as np
-import gc
 import pickle
 import click
 
 from gensim.models.ldamodel import LdaModel
-from gensim.corpora.dictionary import Dictionary
-from gensim.models import Phrases
 from gensim.test.utils import datapath
 
 class Predicting:
@@ -29,10 +24,10 @@ class Predicting:
     
     def predict(self, path_to_model, path_to_corpus):
         
-        with open(path_to_corpus, 'rb+') as f: 
+        with open(path_to_corpus, 'rb') as f: 
             corpus = pickle.load(f)  
             
-        temp_file = datapath("model")
+        temp_file = datapath(path_to_model)
         model_lda = LdaModel.load(temp_file)
         list_of_topics = []
         for doc in corpus:
@@ -47,11 +42,11 @@ class Predicting:
         
         
 @click.command()
-@click.option('-m', '--path_to_model', required=True)
-@click.option('-p', '--path_to_corpus', required=True)
+@click.option('-m', '--path_to_model', required=True, type=str)
+@click.option('-p', '--path_to_corpus', required=True, type=str)
 def main(path_to_model, path_to_corpus):
     predictor = Predicting()
-    predictor(path_to_model, path_to_corpus)    
+    predictor(path_to_model, path_to_corpus)
 
 if __name__ == '__main__':
     main()

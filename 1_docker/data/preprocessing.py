@@ -5,9 +5,7 @@ Script for preprocessing. Call with path to csv
 """
 
 import pandas as pd
-import re
 import numpy as np
-import gc
 import pickle
 import click
 
@@ -42,12 +40,12 @@ class Preprocessing:
         docs = [[token for token in doc if len(token) > 3] for doc in docs]
         docs = [[token for token in doc if token not in russian_stopwords] for doc in docs] 
         
-        with open('docs.pkl', 'wb+') as f: 
+        with open('docs.pkl', 'wb') as f: 
             pickle.dump(docs, f)
         
         
 @click.command()
-@click.option('-p', '--path_to_csv', required=True)
+@click.option('-p', '--path_to_csv', required=True, type=str)
 def main(path_to_csv):
     preprocesser = Preprocessing()
     preprocesser(path_to_csv)    
