@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  mldocker:
+    container_name: mldocker
+    build: 
+       context: .
+       dockerfile: ./Dockerfile
+       args: 
+          USER_ID: 1000
+          GROUP_ID: 1000
+    ports:
+       - "8888:8888"
+    volumes:
+       - ./data:/home/data
+
+
