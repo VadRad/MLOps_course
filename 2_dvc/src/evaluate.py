@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-"""Modeling script
+"""Evaluate script
 
-Script for Gensim LDA model. num_of_topics and model selection in topic-modeling notebook
-Class call saves model and bigrams
 """
 
 import pickle

@@ -25,11 +25,11 @@ stages:
       size: 2104
     params:
       params.yaml:
-        modeling.num_topics: 53
+        modeling.num_topics: 14
     outs:
     - path: data/model
-      md5: b3934d471a20c06825e3b3080e775349.dir
-      size: 30544072
+      md5: f89f80ac4411812ea0228a63a2253ed8.dir
+      size: 25467051
       nfiles: 3
   predict:
     cmd: python3 src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
@@ -38,15 +38,15 @@ stages:
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/model.pkl
-      md5: 98893fd9c16e3033db8e4866e58f4def
-      size: 7823583
+      md5: 6f4c74cd7348f81788abae521a704d6d
+      size: 2746562
     - path: src/predict.py
       md5: a97070c4b7f159b4d2b6472e14803114
       size: 1787
     outs:
     - path: data/predictions
-      md5: cf37a2a29e7bad8590ec61d8f6373864.dir
-      size: 326809
+      md5: 709d0f2e767f26bab0a1862db2d03303.dir
+      size: 313500
       nfiles: 1
   evaluate:
     cmd: python3 src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
@@ -56,21 +56,21 @@ stages:
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/dictionary.pkl
-      md5: bc48480991847bb0456b8bd37de76352
+      md5: 1a94d6fa1fb484bf59843d9ac24ef76c
       size: 854736
     - path: data/model/model.pkl
-      md5: 98893fd9c16e3033db8e4866e58f4def
-      size: 7823583
+      md5: 6f4c74cd7348f81788abae521a704d6d
+      size: 2746562
     - path: data/prepared/docs.pkl
       md5: db88b8fe6e7b5de5de956cf9b4c61f57
       size: 48750549
     - path: src/evaluate.py
-      md5: ccc97539de5276ddedec33f72a7c9c13
-      size: 2449
+      md5: 2255f5db3140fbf1950911478afc919b
+      size: 2324
     outs:
     - path: scores.json
-      md5: 58b28456c352d6c8cb9971818ff451b1
-      size: 29
+      md5: f57da1da0ac51b0f501307c7451b3557
+      size: 30
     - path: visualization.html
-      md5: c9bf35ad1cb8adc78eb7dd3fde4acb09
-      size: 1934839
+      md5: c840a5410e6266e56b099a8af32b8992
+      size: 474085
