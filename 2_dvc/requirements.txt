@@ -1,0 +1,8 @@
+click
+gensim
+nltk
+numpy
+pandas
+pyLDAvis
+gensim
+python-Levenshtein

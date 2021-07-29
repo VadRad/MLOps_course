@@ -1,0 +1,76 @@
+schema: '2.0'
+stages:
+  preprocessing:
+    cmd: python src/preprocessing.py -p data/recipes.csv
+    deps:
+    - path: data/recipes.csv
+      md5: c649f9d9256e9a09ce81e7029268e462
+      size: 53703792
+    - path: src/preprocessing.py
+      md5: 56be35b621948fc542ad81e785b311e4
+      size: 1647
+    outs:
+    - path: data/prepared
+      md5: 6ede8c7285c818e549febcd322ba231d.dir
+      size: 48750549
+      nfiles: 1
+  modeling:
+    cmd: python src/modeling.py -p data/prepared/docs.pkl
+    deps:
+    - path: data/prepared/docs.pkl
+      md5: db88b8fe6e7b5de5de956cf9b4c61f57
+      size: 48750549
+    - path: src/modeling.py
+      md5: f4203d3a0e5648ef7cd3f41512f64d56
+      size: 2104
+    params:
+      params.yaml:
+        modeling.num_topics: 14
+    outs:
+    - path: data/model
+      md5: 9c5a37506fae637608b6482ed9587d1d.dir
+      size: 25467052
+      nfiles: 3
+  predict:
+    cmd: python src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
+    deps:
+    - path: data/model/corpus.pkl
+      md5: b9b752c9022c0df2aa45401eb54fc69c
+      size: 21865753
+    - path: data/model/model.pkl
+      md5: 063ce4bbdc407f706f618ad36cbbe91a
+      size: 2746563
+    - path: src/predict.py
+      md5: a97070c4b7f159b4d2b6472e14803114
+      size: 1787
+    outs:
+    - path: data/predictions
+      md5: c33eb784bdfa372bf3f2024a0b63a5f8.dir
+      size: 307767
+      nfiles: 1
+  evaluate:
+    cmd: python src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
+      -c data/model/corpus.pkl -d data/model/dictionary.pkl
+    deps:
+    - path: data/model/corpus.pkl
+      md5: b9b752c9022c0df2aa45401eb54fc69c
+      size: 21865753
+    - path: data/model/dictionary.pkl
+      md5: 0269888526e519811b20c74520616e04
+      size: 854736
+    - path: data/model/model.pkl
+      md5: 063ce4bbdc407f706f618ad36cbbe91a
+      size: 2746563
+    - path: data/prepared/docs.pkl
+      md5: db88b8fe6e7b5de5de956cf9b4c61f57
+      size: 48750549
+    - path: src/evaluate.py
+      md5: 2255f5db3140fbf1950911478afc919b
+      size: 2324
+    outs:
+    - path: scores.json
+      md5: 0dd09322d146d3c2d128a38a005eb372
+      size: 29
+    - path: visualization.html
+      md5: 11c4b857ff74a3f9ffba451479dd0dfe
+      size: 482538
