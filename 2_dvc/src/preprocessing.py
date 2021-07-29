@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3
 """Preprocessing script
 
 Script for preprocessing. Call with path to csv
@@ -8,12 +8,16 @@ import pandas as pd
 import numpy as np
 import pickle
 import click
+import io
+import yaml
 
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
 nltk.download("stopwords")
+params = yaml.safe_load(open("params.yaml"))["preprocessing"]
+
 
 class Preprocessing:
     
@@ -40,15 +44,18 @@ class Preprocessing:
         docs = [[token for token in doc if len(token) > 3] for doc in docs]
         docs = [[token for token in doc if token not in russian_stopwords] for doc in docs] 
         
-        with open('docs.pkl', 'wb') as f: 
-            pickle.dump(docs, f)
+        return docs
         
         
 @click.command()
 @click.option('-p', '--path_to_csv', required=True, type=str)
 def main(path_to_csv):
+    os.makedirs(os.path.join("data", "prepared"), exist_ok=True)
+    output_path = os.join("data", "prepared", "docs.pkl")
     preprocesser = Preprocessing()
-    preprocesser(path_to_csv)    
+    docs = preprocesser(path_to_csv)
+    with io.open(output_path, "wb") as out:
+        pickle.dump(docs, out)
 
 if __name__ == '__main__':
     main()
