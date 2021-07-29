@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   preprocessing:
-    cmd: python3 src/preprocessing.py -p data/recipes.csv
+    cmd: python src/preprocessing.py -p data/recipes.csv
     deps:
     - path: data/recipes.csv
       md5: c649f9d9256e9a09ce81e7029268e462
@@ -15,7 +15,7 @@ stages:
       size: 48750549
       nfiles: 1
   modeling:
-    cmd: python3 src/modeling.py -p data/prepared/docs.pkl
+    cmd: python src/modeling.py -p data/prepared/docs.pkl
     deps:
     - path: data/prepared/docs.pkl
       md5: db88b8fe6e7b5de5de956cf9b4c61f57
@@ -28,39 +28,39 @@ stages:
         modeling.num_topics: 14
     outs:
     - path: data/model
-      md5: f89f80ac4411812ea0228a63a2253ed8.dir
-      size: 25467051
+      md5: 9c5a37506fae637608b6482ed9587d1d.dir
+      size: 25467052
       nfiles: 3
   predict:
-    cmd: python3 src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
+    cmd: python src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
     deps:
     - path: data/model/corpus.pkl
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/model.pkl
-      md5: 6f4c74cd7348f81788abae521a704d6d
-      size: 2746562
+      md5: 063ce4bbdc407f706f618ad36cbbe91a
+      size: 2746563
     - path: src/predict.py
       md5: a97070c4b7f159b4d2b6472e14803114
       size: 1787
     outs:
     - path: data/predictions
-      md5: 709d0f2e767f26bab0a1862db2d03303.dir
-      size: 313500
+      md5: c33eb784bdfa372bf3f2024a0b63a5f8.dir
+      size: 307767
       nfiles: 1
   evaluate:
-    cmd: python3 src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
+    cmd: python src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
       -c data/model/corpus.pkl -d data/model/dictionary.pkl
     deps:
     - path: data/model/corpus.pkl
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/dictionary.pkl
-      md5: 1a94d6fa1fb484bf59843d9ac24ef76c
+      md5: 0269888526e519811b20c74520616e04
       size: 854736
     - path: data/model/model.pkl
-      md5: 6f4c74cd7348f81788abae521a704d6d
-      size: 2746562
+      md5: 063ce4bbdc407f706f618ad36cbbe91a
+      size: 2746563
     - path: data/prepared/docs.pkl
       md5: db88b8fe6e7b5de5de956cf9b4c61f57
       size: 48750549
@@ -69,8 +69,8 @@ stages:
       size: 2324
     outs:
     - path: scores.json
-      md5: f57da1da0ac51b0f501307c7451b3557
-      size: 30
+      md5: 0dd09322d146d3c2d128a38a005eb372
+      size: 29
     - path: visualization.html
-      md5: c840a5410e6266e56b099a8af32b8992
-      size: 474085
+      md5: 11c4b857ff74a3f9ffba451479dd0dfe
+      size: 482538

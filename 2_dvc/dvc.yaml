@@ -1,13 +1,13 @@
 stages:
   preprocessing:
-    cmd: python3 src/preprocessing.py -p data/recipes.csv
+    cmd: python src/preprocessing.py -p data/recipes.csv
     deps:
     - data/recipes.csv
     - src/preprocessing.py
     outs:
     - data/prepared
   modeling:
-    cmd: python3 src/modeling.py -p data/prepared/docs.pkl
+    cmd: python src/modeling.py -p data/prepared/docs.pkl
     deps:
     - data/prepared/docs.pkl
     - src/modeling.py
@@ -16,7 +16,7 @@ stages:
     outs:
     - data/model
   predict:
-    cmd: python3 src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
+    cmd: python src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
     deps:
     - data/model/corpus.pkl
     - data/model/model.pkl
@@ -24,7 +24,7 @@ stages:
     outs:
     - data/predictions
   evaluate:
-    cmd: python3 src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
+    cmd: python src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
       -c data/model/corpus.pkl -d data/model/dictionary.pkl
     deps:
     - data/model/corpus.pkl
