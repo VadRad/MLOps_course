@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3
 """Modeling script
 
 Script for Gensim LDA model. num_of_topics and model selection in topic-modeling notebook
@@ -7,11 +7,17 @@ Class call saves model and bigrams
 
 import pickle
 import click
+import io
+import os
+import yaml
 
 from gensim.models.ldamodel import LdaModel
 from gensim.corpora.dictionary import Dictionary
 from gensim.models import Phrases
 from gensim.test.utils import datapath
+
+params = yaml.safe_load(open("params.yaml"))["modeling"]
+
 
 class Modeling:
     def __init__(self):        
@@ -36,21 +42,27 @@ class Modeling:
         dictionary.filter_extremes(no_below=10, no_above=0.2)
         corpus = [dictionary.doc2bow(doc) for doc in docs]
         
-        num_topics=14
+        num_topics=params["num_topics"]
         
         model_lda=LdaModel(corpus=corpus, id2word=dictionary, num_topics=num_topics)
-        temp_file = datapath("model")
-        model_lda.save(temp_file)
-        
-        with open('corpus.pkl', 'wb') as f: 
-            pickle.dump(corpus, f)
-        
+
+        return model_lda, corpus, dictionary
         
 @click.command()
 @click.option('-p', '--path_to_docs', required=True, type=str)
 def main(path_to_docs):
+    os.makedirs(os.path.join("data", "model"), exist_ok=True)
     modellda = Modeling()
-    modellda(path_to_docs)    
+    model, corpus, dictionary = modellda(path_to_docs)
+    output_model = os.path.join("data", "model", "model.pkl")
+    with io.open(output_model, "wb") as out: 
+        pickle.dump(model, out)
+    output_corpus = os.path.join("data", "model", "corpus.pkl")
+    with io.open(output_corpus, "wb") as out: 
+        pickle.dump(corpus, out)
+    output_dictionary = os.path.join("data", "model", "dictionary.pkl")
+    with io.open(output_dictionary, "wb") as out: 
+        pickle.dump(dictionary, out)
 
 if __name__ == '__main__':
     main()

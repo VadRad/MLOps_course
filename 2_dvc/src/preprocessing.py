@@ -9,6 +9,7 @@ import numpy as np
 import pickle
 import click
 import io
+import os
 import yaml
 
 import nltk
@@ -51,7 +52,7 @@ class Preprocessing:
 @click.option('-p', '--path_to_csv', required=True, type=str)
 def main(path_to_csv):
     os.makedirs(os.path.join("data", "prepared"), exist_ok=True)
-    output_path = os.join("data", "prepared", "docs.pkl")
+    output_path = os.path.join("data", "prepared", "docs.pkl")
     preprocesser = Preprocessing()
     docs = preprocesser(path_to_csv)
     with io.open(output_path, "wb") as out:

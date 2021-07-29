@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3
 """Predict script
 
 Script for making predictions
@@ -8,9 +8,14 @@ Class call saves dataframe with id and topic number
 import pandas as pd
 import pickle
 import click
+import io
+import os
+import yaml
 
 from gensim.models.ldamodel import LdaModel
 from gensim.test.utils import datapath
+
+params = yaml.safe_load(open("params.yaml"))["predict"]
 
 class Predicting:
     def __init__(self):        
@@ -26,9 +31,8 @@ class Predicting:
         
         with open(path_to_corpus, 'rb') as f: 
             corpus = pickle.load(f)  
-            
-        temp_file = datapath(path_to_model)
-        model_lda = LdaModel.load(temp_file)
+        with open(path_to_model, 'rb+') as f: 
+            model_lda = pickle.load(f)
         list_of_topics = []
         for doc in corpus:
             topics = model_lda.get_document_topics(doc)
@@ -38,7 +42,7 @@ class Predicting:
             list_of_topics.append(doc_topic)
             
         df = pd.DataFrame(list_of_topics, columns=['topic'])
-        df.to_csv('predictions.csv')
+        return df
         
         
 @click.command()
@@ -46,7 +50,10 @@ class Predicting:
 @click.option('-p', '--path_to_corpus', required=True, type=str)
 def main(path_to_model, path_to_corpus):
     predictor = Predicting()
-    predictor(path_to_model, path_to_corpus)
+    predictions = predictor(path_to_model, path_to_corpus)
+    os.makedirs(os.path.join("data", "predictions"), exist_ok=True)
+    output_path = os.path.join("data", "predictions", "predictions.csv")
+    predictions.to_csv(output_path)
 
 if __name__ == '__main__':
     main()
