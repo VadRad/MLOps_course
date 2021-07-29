@@ -25,11 +25,11 @@ stages:
       size: 2104
     params:
       params.yaml:
-        modeling.num_topics: 7
+        modeling.num_topics: 14
     outs:
     - path: data/model
-      md5: 98f90fb5f68d626e6bec52522853f25f.dir
-      size: 24555791
+      md5: f89f80ac4411812ea0228a63a2253ed8.dir
+      size: 25467051
       nfiles: 3
   predict:
     cmd: python3 src/predict.py -m data/model/model.pkl -p data/model/corpus.pkl
@@ -38,15 +38,15 @@ stages:
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/model.pkl
-      md5: b0854d6b755dd3c9ed695634c07f6feb
-      size: 1835302
+      md5: 6f4c74cd7348f81788abae521a704d6d
+      size: 2746562
     - path: src/predict.py
       md5: a97070c4b7f159b4d2b6472e14803114
       size: 1787
     outs:
     - path: data/predictions
-      md5: b0c7cd4d987996fab23e3048ad526593.dir
-      size: 297817
+      md5: 709d0f2e767f26bab0a1862db2d03303.dir
+      size: 313500
       nfiles: 1
   evaluate:
     cmd: python3 src/evaluate.py -m data/model/model.pkl -p data/prepared/docs.pkl
@@ -56,11 +56,11 @@ stages:
       md5: b9b752c9022c0df2aa45401eb54fc69c
       size: 21865753
     - path: data/model/dictionary.pkl
-      md5: 0e96427d9d22a2bd980a7b900c0f9021
+      md5: 1a94d6fa1fb484bf59843d9ac24ef76c
       size: 854736
     - path: data/model/model.pkl
-      md5: b0854d6b755dd3c9ed695634c07f6feb
-      size: 1835302
+      md5: 6f4c74cd7348f81788abae521a704d6d
+      size: 2746562
     - path: data/prepared/docs.pkl
       md5: db88b8fe6e7b5de5de956cf9b4c61f57
       size: 48750549
@@ -69,8 +69,8 @@ stages:
       size: 2449
     outs:
     - path: scores.json
-      md5: 0ffda08ce19d47d4bd6cd6faee2a6b51
-      size: 29
+      md5: f57da1da0ac51b0f501307c7451b3557
+      size: 30
     - path: visualization.html
-      md5: 2b5e581c0e81e43380e77c5b81c8d322
-      size: 220577
+      md5: 7953acf34797bb8cafecd495115d0529
+      size: 474085

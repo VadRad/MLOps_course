@@ -1,6 +1,6 @@
 preprocessing:
 
 modeling:
-    num_topics: 7
+    num_topics: 14
 
 predict:
